@@ -3,6 +3,7 @@ import Landing from './pages/Landing';
 import MyTasks from './pages/MyTasks';
 import NewTask from './pages/NewTask';
 import EditTask from './pages/EditTask';
+// import Login from './pages/Login';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
