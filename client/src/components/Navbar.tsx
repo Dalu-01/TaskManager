@@ -1,29 +1,49 @@
-import { Link, useLocation } from "react-router-dom";
-import { Sun, Moon } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Sun, Moon, LogOut, } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = useTheme();
+  const { user, logout } = useAuth();
+
   const isTasksPage = location.pathname === "/tasks";
+
+  // Sir, this part is used to display the initials of the logged-in user
+  const initials = user?.name
+    ? user.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "?";
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <nav className="flex justify-between items-center py-4 px-8 bg-card-bg border-b-3 border-border-color sticky top-0 z-10 dark:bg-zinc-800 dark:border-zinc-300">
+
       <Link
         to="/"
         className="flex items-center gap-2 no-underline text-text-main group dark:text-zinc-100"
       >
         <div className="p-1 flex items-center justify-center transition-transform group-hover:-translate-y-1">
-          <div>
-            <img src="/task-duty.svg" alt="task-duty-icon" />
-          </div>
+          <img src="/task-duty.svg" alt="task-duty-icon" />
         </div>
         <span className="text-xl font-black tracking-tight group-hover:text-primary transition-colors">
           TaskDuty
         </span>
       </Link>
 
-      <div className="flex items-center gap-6">
+      {/* right side of the navbar */}
+      <div className="flex items-center gap-4">
+
         {isTasksPage ? (
           <Link
             to="/tasks/new"
@@ -39,6 +59,7 @@ export default function Navbar() {
             All Tasks
           </Link>
         )}
+
         <button
           onClick={toggleTheme}
           className="p-2 border-2 border-border-color dark:border-zinc-300 shadow-neo-tag dark:shadow-[2px_2px_0px_0px_#d4d4d8] bg-card-bg dark:bg-zinc-800 text-text-main dark:text-zinc-100 cursor-pointer transition-all duration-100 hover:-translate-y-1"
@@ -46,13 +67,30 @@ export default function Navbar() {
         >
           {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
         </button>
-        <div
-          className="w-9 h-9 rounded-full bg-primary border-2 border-border-color dark:border-zinc-300 shadow-neo-tag dark:shadow-[2px_2px_0px_0px_#d4d4d8] cursor-pointer bg-cover"
-          style={{
-            backgroundImage:
-              'url("https://api.dicebear.com/7.x/notionists/svg?seed=Felix")',
-          }}
-        ></div>
+
+        <Link
+          to="/profile"
+          className="flex items-center gap-2 group no-underline"
+          title={`${user?.name ?? ""} — View Profile`}
+        >
+          <div className="w-9 h-9 rounded-full bg-primary border-2 border-border-color dark:border-zinc-300 shadow-neo-tag dark:shadow-[2px_2px_0px_0px_#d4d4d8] flex items-center justify-center text-white text-sm font-black transition-transform group-hover:-translate-y-1">
+            {initials}
+          </div>
+          <span className="hidden sm:block text-sm font-extrabold text-text-main dark:text-zinc-100 group-hover:text-primary transition-colors max-w-[120px] truncate">
+            {user?.name}
+          </span>
+        </Link>
+
+        {/* Logout button */}
+        <button
+          id="navbar-logout"
+          onClick={handleLogout}
+          className="flex items-center gap-1 p-2 border-2 border-border-color dark:border-white shadow-neo-tag dark:shadow-[2px_2px_0px_0px_#d4d4d8] bg-card-bg dark:bg-zinc-800 text-urgent cursor-pointer transition-all duration-100 hover:-translate-y-1"
+          aria-label="Logout"
+          title="Logout"
+        >
+          <LogOut size={20} />
+        </button>
       </div>
     </nav>
   );
