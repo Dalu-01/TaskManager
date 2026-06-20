@@ -3,16 +3,20 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import taskRoutes from "./routes/tasks.js";
+import authRoutes from "./routes/auth.js";
+import profileRoutes from "./routes/profile.js";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI as string;
 
 app.use(cors());
 app.use(express.json());
-app.use("/tasks", taskRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
 
 app.get("/", (req, res) => {
   res.send("Task Manager API is running");
