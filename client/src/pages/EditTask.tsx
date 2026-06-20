@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-// import axios from 'axios';
 import Navbar from "../components/Navbar";
 import { ChevronLeft } from "lucide-react";
 import { api } from "../config/api";
+import Button from "../components/Button";
 
 export default function EditTask() {
   const { id } = useParams<{ id: string }>();
@@ -21,19 +21,15 @@ export default function EditTask() {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const res = await api.get("/tasks");
-        const task = res.data.find((t: any) => t._id === id);
-        if (task) {
-          setFormData({
-            title: task.title,
-            description: task.description,
-            category: task.category,
-            dueDate: new Date(task.dueDate).toISOString().split("T")[0],
-            completed: task.completed,
-          });
-        } else {
-          setError("Task not found");
-        }
+        const res = await api.get(`/tasks/${id}`);
+        const task = res.data;
+        setFormData({
+          title: task.title,
+          description: task.description,
+          category: task.category,
+          dueDate: new Date(task.dueDate).toISOString().split("T")[0],
+          completed: task.completed,
+        });
       } catch (err) {
         setError("Failed to fetch task");
       } finally {
@@ -42,6 +38,7 @@ export default function EditTask() {
     };
     fetchTask();
   }, [id]);
+
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -176,20 +173,20 @@ export default function EditTask() {
             </div>
 
             <div className="flex gap-4 mt-4">
-              <button
+              <Button
                 type="button"
+                variant="secondary"
                 onClick={() => navigate("/tasks")}
-                className="flex-1 text-xl bg-card-bg dark:bg-zinc-800 text-text-main dark:text-zinc-100 border-3 border-border-color dark:border-zinc-300 shadow-neo dark:shadow-[5px_5px_0px_0px_#d4d4d8] py-3 px-6 font-extrabold uppercase tracking-wide cursor-pointer transition-all duration-100 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-hover dark:hover:shadow-[3px_3px_0px_0px_#d4d4d8] active:translate-x-[5px] active:translate-y-[5px] active:shadow-neo-active dark:active:shadow-none"
+                className="flex-1"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
-                className="flex-1 text-xl bg-primary text-white border-3 border-border-color dark:border-zinc-300 shadow-neo dark:shadow-[5px_5px_0px_0px_#d4d4d8] py-3 px-6 font-extrabold uppercase tracking-wide cursor-pointer transition-all duration-100 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-hover dark:hover:shadow-[3px_3px_0px_0px_#d4d4d8] active:translate-x-[5px] active:translate-y-[5px] active:shadow-neo-active dark:active:shadow-none"
+                className="flex-1"
               >
-                {" "}
                 Done
-              </button>
+              </Button>
             </div>
 
             <div className="text-center mt-4">

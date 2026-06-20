@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+// this is the tailwind section how i designed the dark and light mode.
+// .dark class is used to apply the dark mode styles.
+// for example: .dark .bg-color means if the dark class is applied to the parent element, then the background color will be changed to dark.
+
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: 'class',
@@ -14,8 +18,6 @@ export default {
         "shadow-color": "#000000",
         urgent: "#EF4444",
         important: "#F59E0B",
-        work: "#3B82F6",
-        personal: "#10B981",
       },
       fontFamily: {
         sans: ['"Signika Negative"', "sans-serif"],

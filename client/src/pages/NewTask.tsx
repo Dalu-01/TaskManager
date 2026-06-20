@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-// import axios from "axios";
 import Navbar from "../components/Navbar";
 import { ChevronLeft } from "lucide-react";
 import { api } from "../config/api";
+import Button from "../components/Button";
 
 export default function NewTask() {
   const navigate = useNavigate();
@@ -123,12 +123,9 @@ export default function NewTask() {
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="mt-4 text-xl bg-primary text-white border-3 border-border-color dark:border-zinc-300 shadow-neo dark:shadow-[5px_5px_0px_0px_#d4d4d8] py-3 px-6 font-extrabold uppercase tracking-wide cursor-pointer transition-all duration-100 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-hover dark:hover:shadow-[3px_3px_0px_0px_#d4d4d8] active:translate-x-[5px] active:translate-y-[5px] active:shadow-neo-active dark:active:shadow-none"
-          >
+          <Button type="submit" fullWidth className="mt-4">
             Done
-          </button>
+          </Button>
 
           <div className="text-center mt-4">
             <Link
