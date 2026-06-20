@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import axios from 'axios';
 import Navbar from '../components/Navbar';
 import TaskCard from '../components/TaskCard';
 import { api } from '../config/api';
