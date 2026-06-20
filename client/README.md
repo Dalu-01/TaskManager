@@ -1,77 +1,27 @@
-# Task Manager
+# TaskDuty — Client Application
 
-Task Manager is a full-stack web app for creating, viewing, editing, deleting, filtering, and completing tasks. The client is built with React, TypeScript, Vite, and Tailwind CSS. The server is built with Express, TypeScript, and MongoDB/Mongoose.
+This directory contains the React + TypeScript client for the TaskDuty Task Manager app. For the full project overview, setup, backend API configuration, and running instructions, please refer to the main [README.md](../README.md) at the root of this repository.
 
-## Setup
+## Technologies Used
 
-### Prerequisites
-
-- Node.js installed
-- npm installed
-- MongoDB Atlas account or another MongoDB connection string
-
-### Install dependencies
-
-From the project root, install both packages:
-
-```bash
-cd server
-npm install
-
-cd ../client
-npm install
-```
-
-### Configure the server
-
-Create or update `server/.env` with your MongoDB connection string. The `.env` file is ignored by Git, so it should stay local.
-
-```env
-PORT=9000
-MONGO_URI=your_mongodb_connection_string
-```
-
-### Run the app
-
-Start the API server:
-
-```bash
-cd server
-npm run dev
-```
-
-In a new terminal, start the client:
-
-```bash
-cd client
-npm run dev
-```
-
-Open the client URL shown in the Vite terminal output, usually `http://localhost:5173`.
+- **Framework:** React 19 & Vite
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS (Neo-Brutalist Theme)
+- **Icons:** Lucide React
+- **HTTP Client:** Axios (configured with request/response interceptors in `src/config/api.ts` to attach JWT and handle `401 Unauthorized` logouts)
 
 ## Available Scripts
 
-### Server
+In the `client/` directory, you can run:
 
-```bash
-npm run dev
-npm run build
-npm start
-```
+### `npm run dev`
+Runs the app in development mode at `http://localhost:5173` or `http://localhost:5174`.
 
-### Client
+### `npm run build`
+Builds the app for production to the `dist` folder.
 
-```bash
-npm run dev
-npm run build
-npm run lint
-npm run preview
-```
+### `npm run lint`
+Lints the source code using ESLint.
 
-## Known Issues
-
-- The server requires a valid `MONGO_URI` in `server/.env` before it can connect to MongoDB.
-- The client API calls are hardcoded to `http://localhost:9000`, so the app must be updated before running on a different host or port.
-- Editing a task fetches all tasks from the API and then finds the matching task locally, instead of using a dedicated `GET /tasks/:id` endpoint.
-- The edit form does not show a loading state while saving.
-- The server returns raw error details in some API responses, which should be cleaned up before production use.
+### `npm run preview`
+Locally previews the production build.
