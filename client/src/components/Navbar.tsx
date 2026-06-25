@@ -1,17 +1,24 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Sun, Moon, LogOut, } from "lucide-react";
+import { Sun, Moon, LogOut, Menu } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
+import Sidebar from "./Sidebar";
+import { useState } from "react";
 
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    if (typeof window !== "undefined" && window.innerWidth >= 768) {
+      return true;
+    }
+    return false;
+  });
 
   const isTasksPage = location.pathname === "/tasks";
 
-  // Sir, this part is used to display the initials of the logged-in user
   const initials = user?.name
     ? user.name
         .split(" ")
@@ -28,7 +35,6 @@ export default function Navbar() {
 
   return (
     <nav className="flex justify-between items-center py-4 px-8 bg-card-bg border-b-3 border-border-color sticky top-0 z-10 dark:bg-zinc-800 dark:border-zinc-300">
-
       <Link
         to="/"
         className="flex items-center gap-2 no-underline text-text-main group dark:text-zinc-100"
@@ -41,9 +47,7 @@ export default function Navbar() {
         </span>
       </Link>
 
-      {/* right side of the navbar */}
       <div className="flex items-center gap-4">
-
         {isTasksPage ? (
           <Link
             to="/tasks/new"
@@ -81,7 +85,6 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Logout button */}
         <button
           id="navbar-logout"
           onClick={handleLogout}
@@ -91,7 +94,17 @@ export default function Navbar() {
         >
           <LogOut size={20} />
         </button>
+
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="p-2 border-2 border-border-color dark:border-zinc-300 shadow-neo-tag dark:shadow-[2px_2px_0px_0px_#d4d4d8] bg-card-bg dark:bg-zinc-800 text-text-main dark:text-zinc-100 cursor-pointer transition-all duration-100 hover:-translate-y-1"
+          aria-label="Toggle sidebar"
+        >
+          <Menu size={20} />
+        </button>
       </div>
+
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
     </nav>
   );
 }

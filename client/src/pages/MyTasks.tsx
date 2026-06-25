@@ -11,6 +11,8 @@ interface Task {
   dueDate: string;
   category: 'Important' | 'Urgent';
   completed: boolean;
+  deleted: boolean;
+  deletedAt: string | null;
 }
 
 export default function MyTasks() {
@@ -22,7 +24,7 @@ export default function MyTasks() {
   const fetchTasks = async () => {
     try {
       const res = await api.get('/tasks');
-      setTasks(res.data);
+      setTasks(res.data.tasks);
     } catch (error) {
       console.error('Error fetching tasks', error);
     } finally {
@@ -48,7 +50,7 @@ export default function MyTasks() {
   const handleToggleStatus = async (id: string, currentStatus: boolean) => {
     try {
       const res = await api.put(`/tasks/${id}`, { completed: !currentStatus });
-      setTasks(tasks.map((t: Task) => (t._id === id ? res.data : t)));
+      setTasks(tasks.map((t: Task) => (t._id === id ? res.data.task : t)));
     } catch (error) {
       console.error('Error updating task status', error);
     }

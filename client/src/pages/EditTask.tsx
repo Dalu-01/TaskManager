@@ -22,7 +22,7 @@ export default function EditTask() {
     const fetchTask = async () => {
       try {
         const res = await api.get(`/tasks/${id}`);
-        const task = res.data;
+        const task = res.data.task;
         setFormData({
           title: task.title,
           description: task.description,

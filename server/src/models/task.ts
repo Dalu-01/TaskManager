@@ -7,6 +7,8 @@ export interface ITask extends Document {
   category: "Urgent" | "Important";
   userId: mongoose.Types.ObjectId;
   completed: boolean;
+  deleted: boolean;
+  deletedAt: Date | null;
 }
 
 const TaskSchema: Schema = new Schema(
@@ -26,6 +28,8 @@ const TaskSchema: Schema = new Schema(
     },
 
     completed: { type: Boolean, default: false },
+    deleted: { type: Boolean, default: false },
+    deletedAt: { type: Date, default: null }
   },
   { timestamps: true },
 );

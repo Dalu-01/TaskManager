@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import TrashPage from "./pages/TrashPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path="/tasks/new" element={<NewTask />} />
               <Route path="/tasks/edit/:id" element={<EditTask />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/trash" element={<TrashPage />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />

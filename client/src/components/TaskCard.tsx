@@ -8,6 +8,8 @@ interface Task {
   dueDate: string;
   category: 'Important' | 'Urgent';
   completed: boolean;
+  deleted: boolean;
+  deletedAt: string | null;
 }
 
 interface TaskCardProps {
