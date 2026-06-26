@@ -1,12 +1,13 @@
 # TaskDuty — Neo-Brutalist Task Manager
 
-TaskDuty is a full-stack, secure task management web application built with a modern Neo-Brutalist design language. It allows users to create, view, edit, delete, and filter tasks in a highly responsive and styled workspace.
+TaskDuty is a full-stack, secure task management web application built with a modern Neo-Brutalist design language. It allows users to create, view, edit, soft-delete, and filter tasks, with a dedicated Trash bin for managing deleted items.
 
 ## Key Features
 
 - **JWT Authentication:** Complete user registration, login, and secure session management. JWTs are persisted in `localStorage` and synchronized across tabs.
 - **Security & Data Isolation:** Passwords are securely hashed on the server using `bcryptjs`. API endpoints and client routes are fully protected, ensuring that users can only view, edit, or delete their own tasks.
 - **Extra Feature — Profile Management:** A dedicated user profile page where users can update their display name (synchronized globally in real-time) and update their password with secure verification of their current password.
+- **Soft Delete & Trash Bin:** Tasks are not permanently deleted on removal — they are soft-deleted and moved to a Trash bin. Users can restore tasks from trash or permanently delete them. The trash can also be emptied entirely.
 - **Centralized UI Components:** Features a custom, highly reusable Neo-Brutalist `<Button>` component that centralizes layout classes, hover transitions, and dark mode styling, keeping pages clean and neat.
 - **Theme Support:** Dark mode and light mode toggles with immediate theme persistence.
 
@@ -102,8 +103,14 @@ import Button from '../components/Button';
 - `PUT /api/profile` — Update user name or change password (requires JWT).
 
 ### Tasks
-- `GET /api/tasks` — Get all tasks for the authenticated user (requires JWT).
-- `GET /api/tasks/:id` — Get a specific task details (requires JWT).
+- `GET /api/tasks` — Get all active tasks for the authenticated user (requires JWT).
+- `GET /api/tasks/:id` — Get a specific active task details (requires JWT).
 - `POST /api/tasks` — Create a new task (requires JWT).
 - `PUT /api/tasks/:id` — Update an existing task (requires JWT).
-- `DELETE /api/tasks/:id` — Delete a task (requires JWT).
+- `DELETE /api/tasks/:id` — Soft-delete a task by moving it to the Trash bin (requires JWT).
+
+### Trash Bin
+- `GET /api/tasks/trash` — Get all soft-deleted (trashed) tasks for the authenticated user (requires JWT).
+- `PATCH /api/tasks/trash/:id/restore` — Restore a trashed task back to active status (requires JWT).
+- `DELETE /api/tasks/trash/:id` — Permanently delete a task from the Trash bin (requires JWT).
+- `DELETE /api/tasks/trash` — Empty the entire Trash bin, permanently removing all trashed tasks (requires JWT).
